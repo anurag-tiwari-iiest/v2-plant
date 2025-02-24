@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's New? - Plant Care Tips</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>🌿 What's New? Plant Care Tips</h1>
+        <p id="tip-box">Loading...</p>
+        <button id="new-tip-btn">🔄 Show Another Tip</button>
+    </div>
+
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">🌿 Plant Assistant</div>
+        
+        <!-- Hamburger Menu Icon -->
+        <div class="hamburger-menu" onclick="toggleMenu()">☰</div>
+
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/pricing">Pricing</a></li>
+            <li><a href="/whats-new">What's New?</a></li>
+            <li><a href="/contact-us">Contact Us</a></li>
+        </ul>
+    </nav>
+
+    <div class="back-home">
+        <a href="/">⬅ Back to Home</a> <br>
+    </div>
+
+
+    <script src="{{ url_for('static', filename='whats-new.js') }}"></script>
+
+</body>
+</html>
