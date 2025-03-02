@@ -1,0 +1,712 @@
+/* Global Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+/* Body Styling */
+body {
+    background-color: #f4f4f4;
+    color: black;
+    display: block;
+    text-align: center;
+    padding-top: 60px;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Scrollable Content */
+.content {
+    overflow-y: auto;
+    max-height: 90vh;
+    max-width: 200vb;
+    padding: 10px;
+}
+
+/* General Container Styling */
+.container, .auth-container, .profile-container {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+/* Headings */
+h1, h2 {
+    color: black;
+    margin-bottom: 15px;
+}
+
+/* Form Styling */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    font-weight: bold;
+    margin: 8px 0 4px;
+    color: black;
+}
+
+input, select {
+    display: inline-block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+    color: black;
+}
+
+/* Buttons */
+button, .profile-buttons a {
+    display: inline-block; /* ✅ Makes buttons inline */
+    width: auto;
+    padding: 12px 16px;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-decoration: none;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    text-align: center;
+    margin: 5px; /* ✅ Adds spacing between buttons */
+}
+
+
+/* Primary Button Style */
+button, #add-plant-btn {
+    background-color: black;
+    color: white;
+    border: 2px solid black;
+    box-shadow: 0px 4px 6px rgba(0, 123, 255, 0.2);
+    margin: 10px 5px;
+}
+
+/* Hover Effects */
+button:hover, #add-plant-btn:hover, .back-home-btn:hover, #new-tip-btn:hover, .profile-table button:hover {
+    background-color: white;
+    color: black;
+    border-color: black;
+    transform: scale(1.05);
+}
+
+/* Active (Click) Effect */
+button:active, #add-plant-btn:active {
+    transform: scale(0.98);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Specific Button Styles */
+.back-home-btn, #new-tip-btn {
+    background-color: black;
+    color: white;
+    width: 100%;
+}
+
+.login-btn {
+    padding: 0.5%;
+    background-color: #2d2e2f;
+    color: white;
+    border-radius: 10%;
+}
+
+.login-btn:hover {
+    background-color: #5e5d5d;
+}
+
+.logout-btn {
+    background: red;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    cursor: pointer;
+    display: inline-block;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.logout-btn:hover {
+    background-color: #c9302c;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5%;
+    align-items: center;
+    background: black;
+    color: white;
+    font-size: 18px;
+    z-index: 1000;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Navigation Links */
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 8px 12px;
+    transition: 0.3s;
+}
+
+.nav-links a:hover, .nav-links a:focus {
+    background: #444;
+    border-radius: 5px;
+}
+
+/* Hamburger Menu */
+.hamburger-menu {
+    display: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* Profile Table */
+.profile-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 2px solid black;
+}
+
+.profile-table th, .profile-table td {
+    border: 1px solid black;
+    padding: 12px;
+    text-align: center;
+}
+
+/* Profile Page Buttons */
+.profile-table button {
+    background-color: black;
+    color: white;
+    border: 2px solid black;
+    padding: 8px 12px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 6px;
+    transition: 0.3s;
+    display: inline-flex;
+    width: auto;
+    margin: 2px;
+    gap: 10px;
+    justify-content: center;
+}
+
+/* Align buttons properly */
+.profile-table td {
+    text-align: center;
+}
+
+/* Chatbot Floating Icon */
+#chat-icon {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 50px;
+    height: 50px;
+    background: black;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 24px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+}
+
+#chat-icon:hover {
+    background: #777676;
+}
+
+/* Chat Container */
+#chat-container {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 320px;
+    height: 400px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1000;
+}
+
+/* Chatbot Messages */
+.chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 250px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc
+}
+
+/* Chatbot Input */
+.chatbot-input {
+    display: inline-block;
+    padding: 10px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.chat-send {
+    margin-left: 8px;
+    padding: 8px 12px;
+    border: none;
+    background: #28a745;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+
+/* Profile Table */
+.plant-table {
+    width: 100%; /* Slightly broader but not full screen */
+    max-width: 800px; /* Limits excessive width */
+    margin: 20px auto; /* Centers the table */
+    border-collapse: collapse;
+    border: 2px solid black;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.plant-table th, .plant-table td {
+    border: 1px solid black;
+    padding: 12px;
+    text-align: center;
+}
+
+.plant-table th {
+    background: black;
+    color: white;
+}
+
+/* Buttons inside table */
+.delete-btn, .advice-btn {
+    width: auto;
+    padding: 8px 12px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: bold;
+    border: 2px solid black;
+    transition: 0.3s;
+}
+
+.delete-btn {
+    background: black;
+    color: white;
+}
+
+.advice-btn {
+    background: black;
+    color: white;
+}
+
+/* Hover Effects */
+.delete-btn:hover, .advice-btn:hover {
+    background: white;
+    color: black;
+}
+
+
+/* Chatbot Floating Icon */
+.chatbot-toggle {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    transition: 0.3s;
+}
+
+.chatbot-toggle:hover {
+    background: white;
+    color: black;
+}
+
+/* Chatbot Floating Box */
+.chatbot-box {
+    position: fixed;
+    bottom: 80px;
+    right: 20px;
+    width: 320px;
+    height: 400px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 1000;
+    border: 1px solid #ccc;
+}
+
+/* Scrollable Chat Messages */
+.chatbot-messages {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 300px;
+    padding: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* User Message (Left-aligned) */
+.chat-message.user {
+    align-self: flex-start;
+    background: #e0e0e0;
+    color: black;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 75%;
+    margin: 5px 0;
+}
+
+/* Bot Response (Right-aligned) */
+.chat-message.bot {
+    align-self: flex-end;
+    background: black;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 10px;
+    max-width: 75%;
+    margin: 5px 0;
+}
+
+/* Chat Input Container */
+.chatbot-input {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    border-top: 1px solid #ddd;
+    background: #fff;
+}
+
+/* Input Box */
+.chatbot-input input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Send Button (Small with Play Symbol) */
+.chat-send {
+    margin-left: 8px;
+    padding: 8px 12px;
+    border: none;
+    background: black;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chat-send:hover {
+    background: white;
+    color: black;
+}
+
+.chat-input-container {
+    display: flex; /* Aligns input and button in the same line */
+    align-items: center; /* Ensures proper vertical alignment */
+    gap: 5px; /* Adds a small space between input and button */
+    width: 100%; /* Ensures it takes full width */
+}
+
+.chat-input-container input {
+    flex: 1; /* Makes input take most of the space */
+    padding: 8px 10px; /* Adjust padding for better spacing */
+    font-size: 16px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.chat-input-container input:focus {
+    border-color: black; /* Highlight input when focused */
+}
+
+.my-button {
+    font-size: 10px; /* Adjusts font size */
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.my-button:hover {
+    background-color: white;
+    color: black;
+    border: 1px solid black;
+}
+
+/* Ensure dropdown does not push navbar height */
+.profile-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+/* Dropdown Menu */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #222; /* Dark theme for a sleek look */
+    border-radius: 8px;
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.3);
+    min-width: 150px;
+    text-align: left;
+    z-index: 1000;
+    overflow: hidden;
+    padding: 8px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Keep icon aligned properly */
+.profile-icon {
+    font-size: 24px;
+    background: white;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* Show dropdown on hover */
+.profile-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+/* User Profile Icon */
+.user-menu {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.user-icon {
+    font-size: 24px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border-radius: 50%;
+    color: rgb(255, 255, 255); /* Changed for better visibility */
+    transition: 0.3s;
+    border: 2px solid white;
+}
+
+.user-icon:hover {
+    background: #333;
+    color: rgb(88, 88, 88);
+}
+
+/* Dropdown Menu */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background: #f9f9f9; /* Light background */
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    min-width: 150px;
+    text-align: left;
+    z-index: 1000;
+    padding: 8px 0;
+    transition: all 0.3s ease-in-out;
+    overflow: hidden;
+}
+
+/* Show dropdown on hover */
+.user-menu:hover .dropdown-content {
+    display: block;
+}
+
+/* Profile & Logout Links */
+.dropdown-content a, 
+.dropdown-content button {
+    display: block;
+    width: 80%;
+    margin: 5px auto;
+    text-align: center;
+    background: white;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.3s, color 0.3s;
+    padding: 10px;
+    border-radius: 5px;
+    color: #333; /* Dark text for contrast */
+}
+
+/* Logout Button */
+.dropdown-content button {
+    background: rgb(0, 0, 0);
+    color: #edebeb;
+    border: 1px solid #ccc;
+}
+
+/* Hover Effects */
+.dropdown-content a:hover {
+    background: #e0e0e0;
+}
+
+.dropdown-content button:hover {
+    background: #ffffff; /* Dark gray, not full black */
+    color: rgb(0, 0, 0);
+    border: 1px solid #333;
+}
+
+
+  
+/* Left Side - Logo */
+.nav-left .logo {
+font-size: 1.5rem;
+font-weight: bold;
+color: white;
+text-decoration: none;
+}
+  
+/* Middle Nav Links */
+.nav-links {
+display: flex;
+gap: 20px;
+}
+
+.nav-links a {
+color: white;
+text-decoration: none;
+font-size: 1rem;
+}
+
+
+/* Right Side (Profile & Login) */
+.nav-right {
+display: flex;
+align-items: center;
+gap: 15px;
+} */
+  
+
+/* Hamburger Menu (Hidden by default) */
+.hamburger {
+    display: none;
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
+  .hamburger-dropdown {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .hamburger {
+        display: block;
+      }
+    
+    .hamburger-dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    /* Hide the main nav by default on mobile */
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 60px;
+      left: 0;
+      width: 100%;
+      background: rgb(0, 0, 0);
+      text-align: center;
+      padding: 10px 0;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    }
+  
+    /* When menu is open, show it */
+    .nav-links.open {
+      display: flex;
+    }
+  
+    .nav-links a {
+      padding: 10px;
+      font-size: 1.2rem;
+      color: #edebeb;
+      text-decoration: none;
+      display: block;
+      border-bottom: 1px solid #444;
+    }
+  }
+  
