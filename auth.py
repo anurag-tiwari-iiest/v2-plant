@@ -19,7 +19,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 # Route to handle login
-@auth.route("/login", methods=["POST"])
+@auth.route("/login", methods=["GET", "POST"])
 def login():
     """Logs in an existing user"""
     data = request.json  # Accepts JSON from React

@@ -18,7 +18,7 @@ app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 
 CORS(app, resources={r"/*": {"origins": "http://localhost:3000"}}, supports_credentials=True)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("SQLALCHEMY_DATABASE_URI")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///user.db")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 # Initialize extensions
@@ -191,15 +191,12 @@ def profile():
 
 @app.route('/delete-plant/<int:plant_id>', methods=['DELETE'])
 def delete_plant(plant_id):
-    conn = sqlite3.connect("instance/users.db")
-    cursor = conn.cursor()
-
-    # Delete the plant with the given ID
-    cursor.execute("DELETE FROM plant WHERE id = ?", (plant_id,))
-    conn.commit()
-    conn.close()
-
-    return jsonify({"message": "Plant deleted successfully!"})
+    plant = Plant.query.get(plant_id)
+    if plant:
+        db.session.delete(plant)
+        db.session.commit()
+        return jsonify({"message": "Plant deleted successfully!"})
+    return jsonify({"message": "Plant not found!"}), 404
 
 
 # API route to send random tips
@@ -271,20 +268,6 @@ def add_plant():
     return jsonify({"message": "✅ Plant added successfully!", "duplicate": False})
 
 
-
-
-
-# @app.route("/get-plants", methods=["GET"])
-# @login_required
-# def get_plants():
-#     plants = Plant.query.filter_by(user_id=current_user.id).all()
-#     plant_list = [
-#         {"id":p.id, "plant_type": p.plant_type, "plant_age": p.plant_age, "location": p.location, "environment": p.environment}
-#         for p in plants
-#     ]
-#     return jsonify({"plants": plant_list})
-
-
 @app.route('/get-user', methods=["GET"])
 @login_required
 def get_user():
@@ -294,27 +277,20 @@ def get_user():
 @app.route('/get-plants')
 @login_required
 def get_plants():
-    conn = sqlite3.connect("instance/users.db")
-    cursor = conn.cursor()
+    plants = Plant.query.filter_by(user_id=current_user.id).all()
     
-    # Fetch all plants belonging to the logged-in user (assuming user_id=1 for now)
-    cursor.execute("SELECT id, plant_type, plant_age, location, environment FROM plant WHERE user_id = ?", (current_user.id,))
-    plants = cursor.fetchall()
-    
-    conn.close()
-
-    # Convert to JSON format
     plant_list = [
         {
-            "id": row[0],
-            "type": row[1],
-            "age_months": row[2],
-            "location": row[3],
-            "environment": row[4],
+            "id": p.id,
+            "type": p.plant_type,
+            "age_months": p.plant_age,
+            "location": p.location,
+            "environment": p.environment,
         }
-        for row in plants
+        for p in plants
     ]
     return jsonify(plant_list)
+
 
 
 with app.app_context():
