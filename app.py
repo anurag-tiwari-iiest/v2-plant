@@ -269,8 +269,12 @@ def add_plant():
 
 
 @app.route('/get-user', methods=["GET"])
+@login_required 
 def get_user():
-    return jsonify({"email": current_user.email})
+    if current_user.is_authenticated:
+        return jsonify({"email": current_user.email}), 200
+    else:
+        return jsonify({"error": "User not authenticated"}), 401
 
 
 @app.route('/get-plants')
