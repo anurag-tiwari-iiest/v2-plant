@@ -22,7 +22,7 @@ body {
 .content {
     overflow-y: auto;
     max-height: 90vh;
-    max-width: 200vb;
+    max-width: 200vw;
     padding: 10px;
 }
 
@@ -68,7 +68,7 @@ input, select {
 
 /* Buttons */
 button, .profile-buttons a {
-    display: inline-block; /* ✅ Makes buttons inline */
+    display: inline-block;
     width: auto;
     padding: 12px 16px;
     font-size: 1.1em;
@@ -79,11 +79,9 @@ button, .profile-buttons a {
     cursor: pointer;
     transition: all 0.3s ease-in-out;
     text-align: center;
-    margin: 5px; /* ✅ Adds spacing between buttons */
+    margin: 5px;
 }
 
-
-/* Primary Button Style */
 button, #add-plant-btn {
     background-color: black;
     color: white;
@@ -92,7 +90,6 @@ button, #add-plant-btn {
     margin: 10px 5px;
 }
 
-/* Hover Effects */
 button:hover, #add-plant-btn:hover, .back-home-btn:hover, #new-tip-btn:hover, .profile-table button:hover {
     background-color: white;
     color: black;
@@ -100,13 +97,11 @@ button:hover, #add-plant-btn:hover, .back-home-btn:hover, #new-tip-btn:hover, .p
     transform: scale(1.05);
 }
 
-/* Active (Click) Effect */
 button:active, #add-plant-btn:active {
     transform: scale(0.98);
     box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-/* Specific Button Styles */
 .back-home-btn, #new-tip-btn {
     background-color: black;
     color: white;
@@ -465,15 +460,15 @@ button:active, #add-plant-btn:active {
 }
 
 .chat-input-container {
-    display: flex; /* Aligns input and button in the same line */
-    align-items: center; /* Ensures proper vertical alignment */
-    gap: 5px; /* Adds a small space between input and button */
-    width: 100%; /* Ensures it takes full width */
+    display: flex; 
+    align-items: center; 
+    gap: 5px; 
+    width: 100%;
 }
 
 .chat-input-container input {
-    flex: 1; /* Makes input take most of the space */
-    padding: 8px 10px; /* Adjust padding for better spacing */
+    flex: 1; 
+    padding: 8px 10px;
     font-size: 16px;
     border: 2px solid #ccc;
     border-radius: 5px;
@@ -649,10 +644,10 @@ font-size: 1rem;
 
 /* Right Side (Profile & Login) */
 .nav-right {
-display: flex;
-align-items: center;
-gap: 15px;
-} */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
   
 
 /* Hamburger Menu (Hidden by default) */
