@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { API_URL } from "../config";
+
+
 
 const Login = ({ checkLoginStatus }) => {
     const [email, setEmail] = useState("");
@@ -10,7 +13,7 @@ const Login = ({ checkLoginStatus }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post("http://127.0.0.1:5000/login", { email, password }, { withCredentials: true })
+          axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true })  
           .then(() => {
             localStorage.setItem("isLoggedIn", "true");
             checkLoginStatus();  
