@@ -131,13 +131,7 @@ def home():
     response = make_response(render_template("index.html"))
     response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' http://127.0.0.1:5000;"
     return response
-
-# @app.route("/")
-# @login_required  # ✅ Restricts access to only logged-in users
-# def index():
-#     return render_template("index.html", user=current_user)
-
-
+    
 
 @app.route("/get-care", methods=["POST"])
 def get_plant_care():
@@ -229,24 +223,6 @@ def pricing():
 def contact_us():
     return render_template("contact-us.html")
 
-
-# @app.route("/add-plant", methods=["POST"])
-# @login_required
-# def add_plant():
-#     data = request.json
-
-#     new_plant = Plant(
-#         user_id=current_user.id,
-#         plant_type=data["plant_type"],
-#         plant_age=int(data["plant_age"]),
-#         location=data["location"],
-#         environment=data["environment"],
-#     )
-
-#     db.session.add(new_plant)
-#     db.session.commit()
-
-#     return jsonify({"message": "✅ Plant added successfully!"})
 
 @app.route("/add-plant", methods=["POST"])
 @login_required
