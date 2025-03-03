@@ -10,6 +10,8 @@ from auth import auth, db, bcrypt, login_manager
 from flask_cors import CORS
 from models import db, User, Plant
 from flask_migrate import Migrate
+from flask_session import Session
+
 
 load_dotenv() 
 
@@ -17,9 +19,18 @@ app = Flask(__name__)
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_USE_SIGNER"] = True
+Session(app)
+
+CORS(app, resources={r"/*": {"origins": ["https://v2-plant-1.onrender.com"]}}, supports_credentials=True)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///user.db")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = "auth.login"
 
 # Initialize extensions
 db.init_app(app)
@@ -271,10 +282,10 @@ def add_plant():
 @app.route('/get-user', methods=["GET"])
 @login_required 
 def get_user():
-    if current_user.is_authenticated:
-        return jsonify({"email": current_user.email}), 200
-    else:
+    if not current_user or not current_user.is_authenticated:
         return jsonify({"error": "User not authenticated"}), 401
+
+    return jsonify({"email": current_user.email}), 200
 
 
 @app.route('/get-plants')
