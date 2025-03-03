@@ -22,7 +22,7 @@ const Register = ({ checkLoginStatus }) => {
 
     return (
         <div className="container">
-            <h2>Register Karo</h2>
+            <h2>Register Here</h2>
             <form onSubmit={handleSubmit}>
                 <label>Email:</label>
                 <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
