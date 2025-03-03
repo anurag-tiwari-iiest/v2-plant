@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./styles.css";
+import { API_URL } from "./config";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./components/Navbar";
@@ -16,7 +17,7 @@ const App = () => {
 
   // Check if user is logged in
   const checkLoginStatus = () => {
-    axios.get("http://127.0.0.1:5000/get-user", { withCredentials: true })
+    axios.get(`${API_URL}/get-user`, { withCredentials: true })
       .then(() => {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");
