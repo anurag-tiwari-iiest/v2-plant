@@ -17,7 +17,12 @@ const App = () => {
 
   // Check if user is logged in
   const checkLoginStatus = () => {
-    axios.get(`${API_URL}/get-user`, { withCredentials: true })
+    axios.get(`${API_URL}/get-user`, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json"  // Ensures the request is JSON
+      }
+    })
       .then(() => {
         setIsLoggedIn(true);
         localStorage.setItem("isLoggedIn", "true");

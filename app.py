@@ -269,7 +269,6 @@ def add_plant():
 
 
 @app.route('/get-user', methods=["GET"])
-@login_required
 def get_user():
     return jsonify({"email": current_user.email})
 
