@@ -6,7 +6,7 @@ from flask import Flask, render_template, request, jsonify, make_response, redir
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager, login_required, current_user
-from auth import auth, db, bcrypt, login_manager
+from auth import auth, db, bcrypt, login_manager, init_login_manager
 from flask_cors import CORS
 from models import db, User, Plant
 from flask_migrate import Migrate
@@ -14,6 +14,7 @@ from flask_session import Session
 
 
 load_dotenv() 
+init_login_manager(app)
 
 app = Flask(__name__)
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
@@ -27,10 +28,6 @@ Session(app)
 CORS(app, resources={r"/*": {"origins": ["https://v2-plant-1.onrender.com"]}}, supports_credentials=True)
 app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///user.db")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
-
-login_manager = LoginManager()
-login_manager.init_app(app)
-login_manager.login_view = "auth.login"
 
 # Initialize extensions
 db.init_app(app)
@@ -131,7 +128,7 @@ def home():
     response = make_response(render_template("index.html"))
     response.headers['Content-Security-Policy'] = "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; connect-src 'self' http://127.0.0.1:5000;"
     return response
-    
+
 
 @app.route("/get-care", methods=["POST"])
 def get_plant_care():

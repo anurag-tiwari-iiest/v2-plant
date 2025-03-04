@@ -10,6 +10,10 @@ bcrypt = Bcrypt()
 login_manager = LoginManager()
 login_manager.login_view = "auth.login"
 
+def init_login_manager(app):
+    login_manager.init_app(app)
+
+
 # Create a Blueprint for authentication
 auth = Blueprint("auth", __name__)
 
