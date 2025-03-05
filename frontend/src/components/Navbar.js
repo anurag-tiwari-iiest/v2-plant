@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { API_URL } from "../config";
 
 const Navbar = ({ isLoggedIn, checkLoginStatus }) => {
   const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
 
   const handleLogout = () => {
-    axios.get("http://127.0.0.1:5000/logout", { withCredentials: true })
+    axios.get(`${API_URL}/logout`, { withCredentials: true })
       .then(() => {
         localStorage.setItem("isLoggedIn", "false");
         checkLoginStatus();  // Updates Navbar instantly
