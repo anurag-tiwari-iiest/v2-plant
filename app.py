@@ -13,11 +13,12 @@ from flask_migrate import Migrate
 from flask_session import Session
 
 
+load_dotenv() 
+
 app = Flask(__name__)
 app.config['SESSION_COOKIE_SAMESITE'] = 'None'
 app.config['SESSION_COOKIE_SECURE'] = True
 
-load_dotenv() 
 init_login_manager(app)
 
 app.config["SESSION_TYPE"] = "filesystem"
