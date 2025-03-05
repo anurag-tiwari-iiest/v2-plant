@@ -13,7 +13,6 @@ const Profile = () => {
             headers: { "Content-Type": "application/json" }  // Prevents issues with Flask
         })
         .then(response => {
-            console.log("API Response:", response.data);  // Check what is returned
             if (Array.isArray(response.data)) {
             setPlants(response.data);
             } else {
