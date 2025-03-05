@@ -35,14 +35,15 @@ const Profile = () => {
     }, []);
         
 
-  // Delete plant function
-  const deletePlant = (id) => {
-    axios.delete(`${API_URL}/delete-plant/${id}`)
-      .then(() => {
-        setPlants(plants.filter(plant => plant.id !== id)); // Remove deleted plant from UI
-      })
-      .catch(error => console.error("Error deleting plant:", error));
-  };
+    const deletePlant = (id) => {
+        axios.delete(`${API_URL}/delete-plant/${id}`, {
+            withCredentials: true
+          })
+          .then(() => {
+            setPlants(plants.filter(plant => plant.id !== id)); // Remove deleted plant from UI
+          })
+          .catch(error => console.error("⚠️ Error deleting plant:", error));
+      };
 
   // Get care advice
   const getCareAdvice = (plant) => {

@@ -1,8 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { API_URL } from "../config";
+import { useNavigate } from "react-router-dom";
+
 
 const Home = () => {
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    if (!isLoggedIn) {
+      navigate("/login");  // Redirect if not logged in
+    }
+  }, []);
+
   // Plant Care State
   const [location, setLocation] = useState("");
   const [plantType, setPlantType] = useState("");
@@ -10,6 +21,8 @@ const Home = () => {
   const [plantEnvironment, setPlantEnvironment] = useState("");
   const [result, setResult] = useState("");
   const [addMessage, setAddMessage] = useState("");
+  const [weatherData, setWeatherData] = useState(null);
+
 
   // Chatbot State
   const [chatOpen, setChatOpen] = useState(false);
@@ -43,41 +56,72 @@ const Home = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios.post(`${API_URL}/get-care`, {
-      location,
-      plant_type: plantType,
-      plant_age: plantAge,
-      plant_environment: plantEnvironment
-    })
-    .then(response => setResult(response.data.message))
-    .catch(error => setResult("⚠️ Error fetching care advice."));
+        location,
+        plant_type: plantType,
+        plant_age: plantAge,
+        plant_environment: plantEnvironment
+      })
+      .then(response => {
+        setResult(response.data.message);  // ✅ Save care advice
+        setWeatherData(response.data.weather); // ✅ Save weather data
+      })
+      .catch(error => setResult("⚠️ Error fetching care advice."));
   };
 
   // Handle Adding a Plant
   const handleAddPlant = () => {
-    axios.post(`${API_URL}/add-plant`, {
+    console.log("📤 Sending request to add plant...", {
       location,
       plant_type: plantType,
       plant_age: plantAge,
       environment: plantEnvironment
-    }, { withCredentials: true })
+    });
+  
+    axios.post(`${API_URL}/add-plant`, 
+      {
+        location,
+        plant_type: plantType,
+        plant_age: plantAge,
+        environment: plantEnvironment
+      }, 
+      {
+        withCredentials: true,
+        headers: { "Content-Type": "application/json" }  // ✅ Fixes unsupported media type issue
+      }
+    )
     .then(response => {
+      console.log("✅ Response received:", response.data);
+  
       if (response.data.duplicate) {
         if (window.confirm("This plant already exists! Do you still want to add it?")) {
-          axios.post(`${API_URL}/add-plant`, {
-            location,
-            plant_type: plantType,
-            plant_age: plantAge,
-            environment: plantEnvironment
-          }, { withCredentials: true })
+          axios.post(`${API_URL}/add-plant`, 
+            {
+              location,
+              plant_type: plantType,
+              plant_age: plantAge,
+              environment: plantEnvironment
+            }, 
+            {
+              withCredentials: true,
+              headers: { "Content-Type": "application/json" }
+            }
+          )
           .then(res => setAddMessage(res.data.message))
-          .catch(() => setAddMessage("⚠️ Error adding duplicate plant."));
+          .catch(err => {
+            console.error("⚠️ Error adding duplicate plant:", err);
+            setAddMessage("⚠️ Error adding duplicate plant.");
+          });
         }
       } else {
         setAddMessage(response.data.message);
       }
     })
-    .catch(() => setAddMessage("⚠️ Error adding plant."));
+    .catch(error => {
+      console.error("🚨 Error adding plant:", error.response?.data || error.message);
+      setAddMessage("⚠️ Error adding plant.");
+    });
   };
+  
 
   return (
     <div className="container">
@@ -153,12 +197,23 @@ const Home = () => {
       </div>
 
       {/* Display Care Advice */}
-      {result && (
+        {result && (
         <div className="content">
-          <h3>🌱 Care Advice</h3>
-          <p>{result}</p>
+            <h3>🌱 Care Advice</h3>
+            <p>{result}</p>
+
+            {/* Display Weather Data */}
+            {weatherData && (
+            <div className="weather-info">
+                <h4>🌦️ Weather Info</h4>
+                <p>🌡️ Temperature: {weatherData.temperature}°C</p>
+                <p>💧 Humidity: {weatherData.humidity}%</p>
+                <p>🌧️ Rain: {weatherData.rain} mm</p>
+            </div>
+            )}
         </div>
-      )}
+        )}
+
 
       {/* Display Add Plant Message */}
       {addMessage && (

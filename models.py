@@ -11,7 +11,7 @@ class User(db.Model, UserMixin):
 
 class Plant(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)  # User ID
+    user_id = db.Column(db.Integer, db.ForeignKey("user.id"), nullable=False)
     plant_type = db.Column(db.String(50), nullable=False)
     plant_age = db.Column(db.Integer, nullable=False)
     location = db.Column(db.String(100), nullable=False)

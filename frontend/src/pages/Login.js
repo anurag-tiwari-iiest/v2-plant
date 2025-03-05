@@ -23,8 +23,8 @@ const Login = ({ checkLoginStatus }) => {
           .then(() => {
             localStorage.setItem("isLoggedIn", "true");
             checkLoginStatus();  
-            setTimeout(() => navigate("/"), 100);  // Small delay ensures state updates before redirect
-          })
+            navigate("/", { replace: true });
+        })
           .catch(() => alert("Login failed!"));
       };
 

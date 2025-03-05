@@ -36,12 +36,6 @@ const App = () => {
   useEffect(() => {
     checkLoginStatus();
   }, []);
-
-  // // Protected Route Wrapper
-  // const ProtectedRoute = ({ element }) => {
-  //   if (isLoggedIn === null) return <div>Loading...</div>;
-  //   return isLoggedIn ? element : <Navigate to="/login" />;
-  // };
   
 
   return (
