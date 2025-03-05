@@ -49,7 +49,7 @@ HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 
 def check_database():
     """Check if the database has the 'plant' table, create it if missing."""
-    conn = sqlite3.connect("database.db")  # Ensure this matches your actual database filename
+    conn = sqlite3.connect("users.db")  # Ensure this matches your actual database filename
     cursor = conn.cursor()
 
     # Check if the 'plant' table exists
