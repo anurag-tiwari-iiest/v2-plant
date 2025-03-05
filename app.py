@@ -11,6 +11,7 @@ from flask_cors import CORS
 from models import db, User, Plant
 from flask_migrate import Migrate, upgrade
 from flask_session import Session
+import psycopg2
 
 
 load_dotenv() 
@@ -26,10 +27,9 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_USE_SIGNER"] = True
 Session(app)
 
-# CORS(app, resources={r"/*": {"origins": ["https://v2-plant-1.onrender.com"]}}, supports_credentials=True)
 CORS(app, supports_credentials=True)
 
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL").replace("postgres://", "postgresql://")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 # Initialize extensions
@@ -195,6 +195,7 @@ def profile():
 
 
 @app.route('/delete-plant/<int:plant_id>', methods=['DELETE'])
+@login_required
 def delete_plant(plant_id):
     plant = Plant.query.get(plant_id)
     if plant:
@@ -227,31 +228,32 @@ def contact_us():
 @app.route("/add-plant", methods=["POST"])
 @login_required
 def add_plant():
+    """Add a new plant to the database using SQLAlchemy (PostgreSQL)."""
     data = request.json
 
-    conn = sqlite3.connect("instance/users.db")
-    cursor = conn.cursor()
-
-    # ✅ Check if the plant already exists for this user
-    cursor.execute(
-        "SELECT * FROM plant WHERE user_id = ? AND plant_type = ? AND location = ? AND plant_age = ? AND environment = ?",
-        (current_user.id, data["plant_type"], data["location"], data["plant_age"], data["environment"])
-    )
-    
-    existing_plant = cursor.fetchone()
+    # ✅ Check if the plant already exists
+    existing_plant = Plant.query.filter_by(
+        user_id=current_user.id,
+        plant_type=data["plant_type"],
+        location=data["location"],
+        plant_age=data["plant_age"],
+        environment=data["environment"]
+    ).first()
 
     if existing_plant:
         return jsonify({"message": "⚠️ Plant already exists! Do you still want to add it?", "duplicate": True})
 
-    # ✅ If not a duplicate, add the new plant
-    cursor.execute(
-        "INSERT INTO plant (user_id, plant_type, plant_age, location, environment) VALUES (?, ?, ?, ?, ?)",
-        (current_user.id, data["plant_type"], data["plant_age"], data["location"], data["environment"])
+    # ✅ Add new plant using SQLAlchemy
+    new_plant = Plant(
+        user_id=current_user.id,
+        plant_type=data["plant_type"],
+        plant_age=data["plant_age"],
+        location=data["location"],
+        environment=data["environment"]
     )
-    
-    conn.commit()
-    conn.close()
-    
+    db.session.add(new_plant)
+    db.session.commit()
+
     return jsonify({"message": "✅ Plant added successfully!", "duplicate": False})
 
 
@@ -264,7 +266,7 @@ def get_user():
     return jsonify({"email": current_user.email}), 200
 
 
-@app.route('/get-plants')
+@app.route("/get-plants")
 @login_required
 def get_plants():
     plants = Plant.query.filter_by(user_id=current_user.id).all()
@@ -283,47 +285,10 @@ def get_plants():
 
 
 
-def check_database():
-    """Check if the database file and 'plant' table exist, create them if missing."""
-    
-    db_path = "database.db"  # Change this if your database is elsewhere
-    print(f"🔍 Checking database at: {os.path.abspath(db_path)}")
-
-    conn = sqlite3.connect(db_path)  
-    cursor = conn.cursor()
-
-    # Check if the 'plant' table exists
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-    tables = cursor.fetchall()
-    print(f"📋 Existing tables: {tables}")  # ✅ Debugging log
-
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='plant';")
-    table_exists = cursor.fetchone()
-
-    if not table_exists:
-        print("🚨 Table 'plant' does NOT exist! Creating it now...")
-        cursor.execute("""
-            CREATE TABLE plant (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                location TEXT NOT NULL,
-                plant_type TEXT NOT NULL,
-                plant_age INTEGER NOT NULL,
-                environment TEXT NOT NULL
-            );
-        """)
-        conn.commit()
-        print("✅ Table 'plant' has been created successfully!")
-    else:
-        print("✅ Table 'plant' already exists.")
-
-    conn.close()
-
-
 with app.app_context():
-    db.create_all() 
+    db.create_all()
     upgrade()
 
-check_database()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
