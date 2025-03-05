@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { API_URL } from "../config";
 
 const WhatsNew = () => {
   const [tip, setTip] = useState("");
 
   const fetchNewTip = () => {
-    axios.get("http://127.0.0.1:5000/api/tips", { withCredentials: true })
+    axios.get(`${API_URL}/register/api/tips`, { withCredentials: true })
       .then(response => setTip(response.data.tip))
       .catch(() => setTip("⚠️ No tips available right now."));
   };

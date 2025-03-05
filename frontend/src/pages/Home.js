@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { API_URL } from "../config";
 
 const Home = () => {
   // Plant Care State
@@ -26,7 +27,7 @@ const Home = () => {
     setChatHistory(prev => [...prev, { type: "user", text: chatMessage }]);
 
     // Send message to backend
-    axios.post("http://127.0.0.1:5000/chatbot", { message: chatMessage })
+    axios.post(`${API_URL}/chatbot`, { message: chatMessage })
       .then(response => {
         setChatHistory(prev => [...prev, { type: "bot", text: response.data.response }]);
       })
@@ -41,7 +42,7 @@ const Home = () => {
   // Handle Plant Care Advice Request
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://127.0.0.1:5000/get-care", {
+    axios.post(`${API_URL}/get-care`, {
       location,
       plant_type: plantType,
       plant_age: plantAge,
@@ -53,7 +54,7 @@ const Home = () => {
 
   // Handle Adding a Plant
   const handleAddPlant = () => {
-    axios.post("http://127.0.0.1:5000/add-plant", {
+    axios.post(`${API_URL}/add-plant`, {
       location,
       plant_type: plantType,
       plant_age: plantAge,
@@ -62,7 +63,7 @@ const Home = () => {
     .then(response => {
       if (response.data.duplicate) {
         if (window.confirm("This plant already exists! Do you still want to add it?")) {
-          axios.post("http://127.0.0.1:5000/add-plant", {
+          axios.post(`${API_URL}/add-pant`, {
             location,
             plant_type: plantType,
             plant_age: plantAge,

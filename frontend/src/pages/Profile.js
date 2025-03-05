@@ -37,7 +37,7 @@ const Profile = () => {
 
   // Delete plant function
   const deletePlant = (id) => {
-    axios.delete(`http://127.0.0.1:5000/delete-plant/${id}`)
+    axios.delete(`${API_URL}/delete-plant/${id}`)
       .then(() => {
         setPlants(plants.filter(plant => plant.id !== id)); // Remove deleted plant from UI
       })
@@ -46,7 +46,7 @@ const Profile = () => {
 
   // Get care advice
   const getCareAdvice = (plant) => {
-    axios.post("http://127.0.0.1:5000/get-care", {
+    axios.post(`${API_URL}/get-care`, {
       plant_type: plant.type,
       plant_age: plant.age_months,
       location: plant.location,
