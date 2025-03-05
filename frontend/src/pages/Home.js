@@ -12,7 +12,7 @@ const Home = () => {
     if (!isLoggedIn) {
       navigate("/login");  // Redirect if not logged in
     }
-  }, []);
+  }, [navigate]);
 
   // Plant Care State
   const [location, setLocation] = useState("");
@@ -62,8 +62,8 @@ const Home = () => {
         plant_environment: plantEnvironment
       })
       .then(response => {
-        setResult(response.data.message);  // ✅ Save care advice
-        setWeatherData(response.data.weather); // ✅ Save weather data
+        setResult(response.data.message); 
+        setWeatherData(response.data.weather);
       })
       .catch(error => setResult("⚠️ Error fetching care advice."));
   };
