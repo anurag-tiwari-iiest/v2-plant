@@ -195,7 +195,6 @@ def profile():
 
 
 @app.route('/delete-plant/<int:plant_id>', methods=['DELETE'])
-@login_required
 def delete_plant(plant_id):
     plant = Plant.query.get(plant_id)
     if plant:
