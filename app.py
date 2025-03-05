@@ -9,7 +9,7 @@ from flask_login import LoginManager, login_required, current_user
 from auth import auth, db, bcrypt, login_manager, init_login_manager
 from flask_cors import CORS
 from models import db, User, Plant
-from flask_migrate import Migrate
+from flask_migrate import Migrate, upgrade
 from flask_session import Session
 
 
