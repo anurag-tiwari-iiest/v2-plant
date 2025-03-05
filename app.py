@@ -46,35 +46,6 @@ API_KEY = os.getenv("API_KEY")
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
 
 
-
-def check_database():
-    """Check if the database has the 'plant' table, create it if missing."""
-    conn = sqlite3.connect("users.db")  # Ensure this matches your actual database filename
-    cursor = conn.cursor()
-
-    # Check if the 'plant' table exists
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='plant';")
-    table_exists = cursor.fetchone()
-
-    if not table_exists:
-        print("🚨 Table 'plant' does NOT exist! Creating it now...")
-        cursor.execute("""
-            CREATE TABLE plant (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                location TEXT NOT NULL,
-                plant_type TEXT NOT NULL,
-                plant_age INTEGER NOT NULL,
-                environment TEXT NOT NULL
-            );
-        """)
-        conn.commit()
-        print("✅ Table 'plant' has been created successfully!")
-    else:
-        print("✅ Table 'plant' already exists.")
-
-    conn.close()
-
-
 def get_weather(location):
     """Fetch weather data from OpenWeatherMap API based on city or PIN code."""
     if re.match(r"^\d{6}$", location):
@@ -314,6 +285,44 @@ def get_plants():
 
 with app.app_context():
     db.create_all()  # ✅ Make sure tables are created
+
+
+
+def check_database():
+    """Check if the database file and 'plant' table exist, create them if missing."""
+    
+    db_path = "database.db"  # Change this if your database is elsewhere
+    print(f"🔍 Checking database at: {os.path.abspath(db_path)}")
+
+    conn = sqlite3.connect(db_path)  
+    cursor = conn.cursor()
+
+    # Check if the 'plant' table exists
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+    print(f"📋 Existing tables: {tables}")  # ✅ Debugging log
+
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='plant';")
+    table_exists = cursor.fetchone()
+
+    if not table_exists:
+        print("🚨 Table 'plant' does NOT exist! Creating it now...")
+        cursor.execute("""
+            CREATE TABLE plant (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                location TEXT NOT NULL,
+                plant_type TEXT NOT NULL,
+                plant_age INTEGER NOT NULL,
+                environment TEXT NOT NULL
+            );
+        """)
+        conn.commit()
+        print("✅ Table 'plant' has been created successfully!")
+    else:
+        print("✅ Table 'plant' already exists.")
+
+    conn.close()
+
 
 check_database()
 
