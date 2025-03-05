@@ -13,7 +13,13 @@ const Login = ({ checkLoginStatus }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-          axios.post(`${API_URL}/login`, { email, password }, { withCredentials: true })  
+        axios.post(`${API_URL}/login`, 
+            { email, password }, 
+            {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true
+            }
+          )            
           .then(() => {
             localStorage.setItem("isLoggedIn", "true");
             checkLoginStatus();  

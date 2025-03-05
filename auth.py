@@ -26,7 +26,8 @@ def load_user(user_id):
 @auth.route("/login", methods=["GET", "POST"])
 def login():
     """Logs in an existing user"""
-    data = request.json  # Accepts JSON from React
+    data = request.json 
+    print("Received login request:", data)
     email = data.get("email")
     password = data.get("password")
 
@@ -48,7 +49,8 @@ def logout():
 @auth.route("/register", methods=["POST"])
 def register():
     """Registers a new user"""
-    data = request.json  # Accepts JSON from React
+    data = request.json
+    print("Received register request:", data)
     email = data.get("email")
     password = data.get("password")
 

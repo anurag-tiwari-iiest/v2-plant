@@ -7,7 +7,7 @@ const Profile = () => {
 
   // Fetch plant data from Flask API
     useEffect(() => {
-        axios.get("http://127.0.0.1:5000/get-plants", {
+        axios.get(`${API_URL}/get-plants`, {
             withCredentials: true,  // Ensures cookies are sent
             headers: { "Content-Type": "application/json" }  // Prevents issues with Flask
         })
@@ -28,7 +28,7 @@ const Profile = () => {
     const [userEmail, setUserEmail] = useState("");
 
     useEffect(() => {
-        axios.get("http://127.0.0.1:5000/get-user", { withCredentials: true })
+        axios.get(`${API_URL}/get-user`, { withCredentials: true })
         .then(response => setUserEmail(response.data.email))
         .catch(error => console.error("Error fetching user:", error));
     }, []);

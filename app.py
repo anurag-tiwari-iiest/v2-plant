@@ -26,8 +26,10 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_USE_SIGNER"] = True
 Session(app)
 
-CORS(app, resources={r"/*": {"origins": ["https://v2-plant-1.onrender.com"]}}, supports_credentials=True)
-app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL", "sqlite:///user.db")
+# CORS(app, resources={r"/*": {"origins": ["https://v2-plant-1.onrender.com"]}}, supports_credentials=True)
+CORS(app, supports_credentials=True)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 
 # Initialize extensions
@@ -285,4 +287,4 @@ with app.app_context():
     db.create_all()  # ✅ Make sure tables are created
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=5000)
