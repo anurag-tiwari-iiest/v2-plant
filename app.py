@@ -283,11 +283,6 @@ def get_plants():
 
 
 
-with app.app_context():
-    db.create_all()  # ✅ Make sure tables are created
-
-
-
 def check_database():
     """Check if the database file and 'plant' table exist, create them if missing."""
     
@@ -323,6 +318,10 @@ def check_database():
 
     conn.close()
 
+
+with app.app_context():
+    db.create_all() 
+    upgrade()
 
 check_database()
 
