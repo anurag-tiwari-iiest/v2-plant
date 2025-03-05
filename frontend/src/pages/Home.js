@@ -63,7 +63,7 @@ const Home = () => {
     .then(response => {
       if (response.data.duplicate) {
         if (window.confirm("This plant already exists! Do you still want to add it?")) {
-          axios.post(`${API_URL}/add-pant`, {
+          axios.post(`${API_URL}/add-plant`, {
             location,
             plant_type: plantType,
             plant_age: plantAge,

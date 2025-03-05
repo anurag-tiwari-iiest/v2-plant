@@ -6,7 +6,7 @@ const WhatsNew = () => {
   const [tip, setTip] = useState("");
 
   const fetchNewTip = () => {
-    axios.get(`${API_URL}/register/api/tips`, { withCredentials: true })
+    axios.get(`${API_URL}/api/tips`, { withCredentials: true })
       .then(response => setTip(response.data.tip))
       .catch(() => setTip("⚠️ No tips available right now."));
   };
