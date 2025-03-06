@@ -9,8 +9,8 @@ const Home = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("isLoggedIn");
-    if (!isLoggedIn) {
-      navigate("/login");  // Redirect if not logged in
+    if (isLoggedIn !== "true") { 
+      navigate("/login");
     }
   }, [navigate]);
 

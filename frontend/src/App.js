@@ -13,7 +13,7 @@ import Register from "./pages/Register";
 import Pricing from "./pages/Pricing";
 
 const App = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem("isLoggedIn") === "true");
 
   // Check if user is logged in
   const checkLoginStatus = () => {

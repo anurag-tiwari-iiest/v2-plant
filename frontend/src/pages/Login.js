@@ -19,11 +19,11 @@ const Login = ({ checkLoginStatus }) => {
               headers: { "Content-Type": "application/json" },
               withCredentials: true
             }
-          )            
+          )     
           .then(() => {
             localStorage.setItem("isLoggedIn", "true");
-            checkLoginStatus();  
-            navigate("/", { replace: true });
+            checkLoginStatus();
+            setTimeout(() => navigate("/", { replace: true }), 500);
         })
           .catch(() => alert("Login failed!"));
       };
