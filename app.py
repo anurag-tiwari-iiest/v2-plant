@@ -285,7 +285,14 @@ def get_plants():
     return jsonify(plant_list)
 
 
-@app.route("/search-plant", methods=["GET"])
+@app.before_request
+def check_api_routes():
+    if request.path.startswith("/api/"):
+        return  # Allow API routes
+    return jsonify({"message": "Frontend is handling this request"}), 404
+
+
+@app.route("/api/search-plant", methods=["GET"])
 def search_plant():
     query = request.args.get("query", "").strip()
     
