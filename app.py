@@ -288,27 +288,32 @@ def get_plants():
 @app.route("/search-plant", methods=["GET"])
 def search_plant():
     query = request.args.get("query", "").strip()
+    
     if not query:
         return jsonify({"message": "Please enter a plant name"}), 400
+    
+    print(f"🔍 Received query: {query}")
 
     if not TREFLE_API_KEY:
         return jsonify({"message": "Trefle API key is missing"}), 500
 
     response = requests.get(f"{TREFLE_API_URL}?q={query}&token={TREFLE_API_KEY}")
-    data = response.json()
+    print("🌿 Trefle API Response:", response.text)
 
+    if response.status_code != 200:
+        return jsonify({"message": "Error fetching data from Trefle"}), 500
+    data = response.json()
     if not data.get("data"):
         return jsonify({"message": "Plant not found"}), 404
 
-    plant = data["data"][0]  # Get the first matching plant
+    plant = data["data"][0]
     plant_details = {
         "common_name": plant.get("common_name", "Unknown"),
         "scientific_name": plant.get("scientific_name", "Unknown"),
-        "image_url": plant.get("image_url", "https://via.placeholder.com/150"),  # Fallback image
+        "image_url": plant.get("image_url", "https://via.placeholder.com/150"),
     }
 
-    return jsonify(plant_details)
-
+    return jsonify(plant_details), 200
 
 
 with app.app_context():
