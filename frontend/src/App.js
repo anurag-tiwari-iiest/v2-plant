@@ -4,7 +4,7 @@ import { API_URL } from "./config";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
+import Home from "./pages/home";
 import Profile from "./pages/Profile";
 import WhatsNew from "./pages/WhatsNew";
 import ContactUs from "./pages/ContactUs";
