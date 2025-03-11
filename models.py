@@ -16,3 +16,14 @@ class Plant(db.Model):
     plant_age = db.Column(db.Integer, nullable=False)
     location = db.Column(db.String(100), nullable=False)
     environment = db.Column(db.String(10), nullable=False)
+
+class PlantInfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    common_name = db.Column(db.String(100), unique=True, nullable=False)
+    scientific_name = db.Column(db.String(100), nullable=False)
+    water_schedule = db.Column(db.String(50), nullable=False)
+    sunlight_requirements = db.Column(db.String(100), nullable=False)
+    soil_type = db.Column(db.String(100), nullable=False)
+    fertilizers = db.Column(db.Text, nullable=False)
+    pesticides = db.Column(db.Text, nullable=False)
+    history = db.Column(db.Text, nullable=False)

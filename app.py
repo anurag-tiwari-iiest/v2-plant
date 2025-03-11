@@ -44,6 +44,8 @@ app.register_blueprint(auth)
 
 API_KEY = os.getenv("API_KEY")
 HUGGINGFACE_API_KEY = os.getenv("HUGGINGFACE_API_KEY")
+TREFLE_API_KEY = os.getenv("TREFLE_API_KEY")
+TREFLE_API_URL = "https://trefle.io/api/v1/plants/search"
 
 
 def get_weather(location):
@@ -281,6 +283,31 @@ def get_plants():
         for p in plants
     ]
     return jsonify(plant_list)
+
+
+@app.route("/search-plant", methods=["GET"])
+def search_plant():
+    query = request.args.get("query", "").strip()
+    if not query:
+        return jsonify({"message": "Please enter a plant name"}), 400
+
+    if not TREFLE_API_KEY:
+        return jsonify({"message": "Trefle API key is missing"}), 500
+
+    response = requests.get(f"{TREFLE_API_URL}?q={query}&token={TREFLE_API_KEY}")
+    data = response.json()
+
+    if not data.get("data"):
+        return jsonify({"message": "Plant not found"}), 404
+
+    plant = data["data"][0]  # Get the first matching plant
+    plant_details = {
+        "common_name": plant.get("common_name", "Unknown"),
+        "scientific_name": plant.get("scientific_name", "Unknown"),
+        "image_url": plant.get("image_url", "https://via.placeholder.com/150"),  # Fallback image
+    }
+
+    return jsonify(plant_details)
 
 
 
