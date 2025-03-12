@@ -10,7 +10,7 @@ const KnowYourPlant = () => {
     const searchPlant = () => {
         if (!query.trim()) return;
         
-        axios.get(`${API_URL}/api/search-plant?query=${query}`)
+        axios.get(`${API_URL}/api/search-plant?query=${encodeURIComponent(query)}`)
             .then(response => {
                 setPlant(response.data);
                 setError("");

@@ -292,43 +292,33 @@ def check_api_routes():
     return jsonify({"message": "Frontend is handling this request"}), 404
 
 
-# @app.route("/api/search-plant", methods=["GET"])
-# def search_plant():
-#     query = request.args.get("query", "").strip()
-#     if not query:
-#         return jsonify({"message": "Please enter a plant name"}), 400
-
-#     # Call Trefle API
-#     response = requests.get(f"{TREFLE_API_URL}?token={TREFLE_API_KEY}&q={query}")
-    
-#     print("Trefle API Response:", response.text)  # Debugging line
-    
-#     data = response.json()
-
-#     if not data.get("data"):
-#         return jsonify({"message": "Plant not found"}), 404
-
-#     plant = data["data"][0]  # First matching plant
-#     plant_details = {
-#         "common_name": plant.get("common_name", "Unknown"),
-#         "scientific_name": plant.get("scientific_name", "Unknown"),
-#         "image_url": plant.get("image_url", "https://via.placeholder.com/150"),
-#     }
-
-#     return jsonify(plant_details)
-
 @app.route('/api/search-plant', methods=['GET'])
 def search_plant():
-    query = request.args.get('query')
+    query = request.args.get('query', "").strip()
     if not query:
         return jsonify({"error": "Query parameter is required"}), 400
 
-    # Sample response (Replace with actual API call logic)
-    return jsonify({
-        "common_name": "Rose",
-        "scientific_name": "Rosa indica",
-        "image_url": "https://bs.floristic.org/image/o/abc123.jpg"
-    })
+    if not TREFLE_API_KEY:
+        return jsonify({"error": "Trefle API key is missing"}), 500
+
+    # Correct API call to Trefle
+    response = requests.get(f"https://trefle.io/api/v1/plants?token={TREFLE_API_KEY}&q={query}")
+
+    if response.status_code != 200:
+        return jsonify({"error": "Failed to fetch data from Trefle API"}), 500
+
+    data = response.json()
+
+    if "data" not in data or not data["data"]:
+        return jsonify({"message": "Plant not found"}), 404
+
+    plant = data["data"][0]  # First matching plant
+    plant_details = {
+        "common_name": plant.get("common_name", "Unknown"),
+        "scientific_name": plant.get("scientific_name", "Unknown"),
+        "image_url": plant.get("image_url", "https://via.placeholder.com/150"),  # Default image
+    }
+    return jsonify(plant_details)
 
 
 with app.app_context():

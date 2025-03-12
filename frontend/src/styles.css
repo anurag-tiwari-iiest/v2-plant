@@ -666,6 +666,35 @@ font-size: 1rem;
     align-items: center;
   }
 
+
+  .plant-table {
+    width: 100%;
+    max-width: 800px;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border: 2px solid black;
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    display: block;
+    max-height: 400px; /* Limits height */
+    overflow-y: auto;  /* Enables vertical scroll */
+}
+
+/* Make table scrollable */
+.plant-table-wrapper {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.plant-table th, .plant-table td {
+    border: 1px solid black;
+    padding: 12px;
+    text-align: center;
+    white-space: nowrap; /* Prevents text from wrapping */
+}
+
+
 /* Mobile Styles */
 @media (max-width: 768px) {
     .hamburger {
@@ -702,6 +731,11 @@ font-size: 1rem;
       text-decoration: none;
       display: block;
       border-bottom: 1px solid #444;
+    }
+
+    .plant-table {
+        display: block;
+        overflow-x: auto;
     }
   }
   
