@@ -33,7 +33,7 @@ const Navbar = ({ isLoggedIn, checkLoginStatus }) => {
         <Link to="/pricing" onClick={() => setMenuOpen(false)}>Pricing</Link>
         <Link to="/whats-new" onClick={() => setMenuOpen(false)}>What's New?</Link>
         <Link to="/contact-us" onClick={() => setMenuOpen(false)}>Contact Us</Link>
-        <li><Link to="/know-your-plant">Know Your Plant</Link></li>
+        <li><Link to="/know-your-plant" onClick={() => setMenuOpen(false)}>Know Your Plant</Link></li>
       </div>
 
       {/* Right Side (Profile / Login) */}

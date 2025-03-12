@@ -50,7 +50,8 @@ const App = () => {
         <Route path="/whats-new" element={isLoggedIn ? <WhatsNew /> : <Navigate to="/login" replace />} />
         <Route path="/contact-us" element={isLoggedIn ? <ContactUs /> : <Navigate to="/login" replace />} />
         <Route path="/pricing" element={isLoggedIn ? <Pricing /> : <Navigate to="/login" replace />} />
-        <Route path="/know-your-plant" element={<KnowYourPlant />} />
+        <Route path="/know-your-plant" element={isLoggedIn ? <KnowYourPlant /> : <Navigate to="/login" replace />} />
+        {/* <Route path="/know-your-plant" element={<KnowYourPlant />} /> */}
 
         <Route path="/login" element={<Login checkLoginStatus={checkLoginStatus} />} />
         <Route path="/register" element={<Register checkLoginStatus={checkLoginStatus} />} />
